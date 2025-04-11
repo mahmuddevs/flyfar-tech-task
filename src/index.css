@@ -9,3 +9,15 @@ body {
   font-family: 'PT Root UI' !important;
   background-color: #edf2f6 !important;
 }
+
+.slick-dots {
+  width: auto !important;
+  bottom: 1.5rem !important;
+  right: 1rem;
+}
+
+.slick-dots li button::before {
+  font-size: 20px !important;
+  height: 20px !important;
+  width: 20px !important;
+}

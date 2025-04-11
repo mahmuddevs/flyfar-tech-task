@@ -26,7 +26,7 @@ const Header = () => {
             transition: 'all 0.3s ease',
         }}>
             <Container sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <a href="/"><img src={siteLogo} width='140px' alt="fly-far" /></a>
+                <a href="/"><Box component="img" src={siteLogo} sx={{ width: { xs: '110px', md: '130px' } }} alt="fly-far" /></a>
                 <Box sx={{ display: 'flex', gap: 1 }}>
                     <Button variant="contained" color="primary" sx={{ borderRadius: 5, px: 3 }}>
                         Travel Agency
