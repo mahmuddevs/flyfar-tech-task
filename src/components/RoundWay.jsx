@@ -88,7 +88,7 @@ const RoundWay = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, justifyContent: 'space-between' }}>
+    <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, justifyContent: 'space-between', gap: 2 }}>
       {/* From Section */}
       <Box sx={{ flex: 1, justifySelf: 'center', textAlign: 'center' }}>
         <Typography fontSize={'13px'}>From</Typography>
@@ -234,7 +234,7 @@ const RoundWay = () => {
       </Box>
 
       {/* Flight Icons Section */}
-      <Box sx={{ position: 'relative', display: { xs: 'none', md: 'block' } }}>
+      <Box sx={{ position: 'relative', display: { xs: 'none', lg: 'block' } }}>
         <FlightIcon color="primary" sx={{
           transform: 'rotate(90deg)',
           height: '6rem',
