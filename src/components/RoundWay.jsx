@@ -1,10 +1,9 @@
-import { Box, Button, Typography } from "@mui/material"
+import { Box, Button, ClickAwayListener, Typography } from "@mui/material";
 import FlightIcon from '@mui/icons-material/Flight';
 import LocalAirportOutlinedIcon from '@mui/icons-material/LocalAirportOutlined';
 import { useState } from "react";
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-
 
 const airportOptions = [
   {
@@ -51,108 +50,185 @@ const airportOptions = [
   }
 ];
 
-
 const RoundWay = () => {
-  const [selected, setSelected] = useState([null, null, null, null])
-  const [visible, setVisible] = useState([false, false, false, false])
-  const [searchValues, setSearchValues] = useState({
-    to: {
-      location: {},
-      date: ''
-    },
-    from: {
-      location: {},
-      date: ''
-    }
-  })
+  const [selected, setSelected] = useState([null, null, null, null]);
+  const [visibleFrom, setVisibleFrom] = useState(false);
+  const [visibleTo, setVisibleTo] = useState(false);
+  const [visibleDateFrom, setVisibleDateFrom] = useState(false);
+  const [visibleDateTo, setVisibleDateTo] = useState(false);
+
+  const handleActiveFrom = () => {
+    setVisibleFrom(prev => !prev);
+    setVisibleTo(false);
+    setVisibleDateFrom(false);
+    setVisibleDateTo(false);
+  };
+
+  const handleActiveTo = () => {
+    setVisibleTo(prev => !prev);
+    setVisibleFrom(false);
+    setVisibleDateFrom(false);
+    setVisibleDateTo(false);
+  };
+
+  const handleDateFrom = () => {
+    setVisibleDateFrom(prev => !prev);
+    setVisibleFrom(false);
+    setVisibleTo(false);
+    setVisibleDateTo(false);
+  };
+
+  const handleDateTo = () => {
+    setVisibleDateTo(prev => !prev);
+    setVisibleFrom(false);
+    setVisibleTo(false);
+    setVisibleDateFrom(false);
+  };
 
   return (
     <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, justifyContent: 'space-between' }}>
       <Box sx={{ flex: 1, justifySelf: 'center', textAlign: 'center' }}>
-        <Typography fontSize={'13px'}>
-          From
-        </Typography>
+        <Typography fontSize={'13px'}>From</Typography>
         <Typography color="primary" sx={{ fontSize: '40px', fontWeight: 500 }}>
           {selected[0] ? `${selected[0].value}` : `${airportOptions[0].value}`}
         </Typography>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-          <Button disableRipple sx={{
-            '&:hover': {
-              backgroundColor: 'inherit',
-              color: 'inherit',
-              boxShadow: 'none',
-            },
-          }}>
-            <FmdGoodIcon
-              sx={{
-                bgcolor: 'primary.main',
-                py: 1,
-                px: 2,
-                fontSize: '20px',
-                '& path': {
-                  stroke: 'white',
-                  fill: 'none'
-                },
-                borderRadius: '10px 0 0 10px'
-              }}
-            />
-            <Typography sx={{
-              bgcolor: 'background.default',
-              py: 1,
-              px: 2,
-              fontSize: '13px',
-              color: 'text.secondary',
-              borderRadius: '0 10px 10px 0',
-              minWidth: '200px',
-              textAlign: 'left'
-            }}
-            >{selected[0] ? `${selected[0].airport} (${selected[0].value})` : `${airportOptions[2].airport} (${airportOptions[0].value})`}</Typography>
-          </Button>
-          <Button disableRipple sx={{
-            '&:hover': {
-              backgroundColor: 'inherit',
-              color: 'inherit',
-              boxShadow: 'none',
-            },
-          }}>
-            <CalendarMonthIcon
-              sx={{
-                bgcolor: 'primary.main',
-                py: 1,
-                px: 2,
-                fontSize: '20px',
-                '& path': {
-                  stroke: 'white',
-                  fill: 'none'
-                },
-                borderRadius: '10px 0 0 10px'
-              }}
-            />
-            <Typography sx={{
-              bgcolor: 'background.default',
-              py: 1,
-              px: 2,
-              fontSize: '13px',
-              color: 'text.secondary',
-              borderRadius: '0 10px 10px 0',
-              minWidth: '200px',
-              textAlign: 'left'
-            }}
-            >
-              date
-            </Typography>
-          </Button>
 
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+          <Box sx={{ position: 'relative', width: '100%' }}>
+            <ClickAwayListener onClickAway={() => setVisibleFrom(false)}>
+              <Box sx={{ position: 'relative', width: '100%' }}>
+                <Button
+                  onClick={handleActiveFrom}
+                  disableRipple
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'stretch',
+                    width: '100%',
+                    borderRadius: '10px',
+                    overflow: 'hidden',
+                    p: 0,
+                    '&:hover': { backgroundColor: 'inherit', color: 'inherit', boxShadow: 'none' },
+                  }}
+                >
+                  <FmdGoodIcon
+                    sx={{
+                      bgcolor: 'primary.main',
+                      py: 1,
+                      px: 2,
+                      fontSize: '20px',
+                      '& path': { stroke: 'white', fill: 'none' },
+                    }}
+                  />
+                  <Typography
+                    sx={{
+                      bgcolor: 'background.default',
+                      py: 1,
+                      px: 2,
+                      fontSize: '13px',
+                      color: 'text.secondary',
+                      textAlign: 'left',
+                      flex: 1,
+                    }}
+                  >
+                    {selected[0]
+                      ? `${selected[0].airport} (${selected[0].value})`
+                      : `${airportOptions[0].airport} (${airportOptions[0].value})`}
+                  </Typography>
+                </Button>
+
+                {visibleFrom && (
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      top: '100%',
+                      left: 0,
+                      width: '100%',
+                      boxSizing: 'border-box',
+                      bgcolor: 'primary.main',
+                      height: '300px',
+                      zIndex: 50,
+                      borderRadius: '0 0 10px 10px',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    Dropdown From
+                  </Box>
+                )}
+              </Box>
+            </ClickAwayListener>
+          </Box>
+
+          <Box sx={{ position: 'relative', width: '100%' }}>
+            <ClickAwayListener onClickAway={() => setVisibleDateFrom(false)}>
+              <Box sx={{ position: 'relative', width: '100%' }}>
+                <Button
+                  onClick={handleDateFrom}
+                  disableRipple
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'stretch',
+                    borderRadius: '10px',
+                    overflow: 'hidden',
+                    p: 0,
+                    '&:hover': { backgroundColor: 'inherit', color: 'inherit', boxShadow: 'none' },
+                  }}
+                >
+                  <CalendarMonthIcon
+                    sx={{
+                      bgcolor: 'primary.main',
+                      py: 1,
+                      px: 2,
+                      fontSize: '20px',
+                      '& path': { stroke: 'white', fill: 'none' },
+                    }}
+                  />
+                  <Typography
+                    sx={{
+                      bgcolor: 'background.default',
+                      py: 1,
+                      px: 2,
+                      fontSize: '13px',
+                      color: 'text.secondary',
+                      textAlign: 'left',
+                      flex: 1,
+                    }}
+                  >
+                    Departure Date
+                  </Typography>
+                </Button>
+
+                {visibleDateFrom && (
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      top: '100%',
+                      left: 0,
+                      width: '100%',
+                      boxSizing: 'border-box',
+                      bgcolor: 'background.paper',
+                      height: '300px',
+                      zIndex: 50,
+                      borderRadius: '0 0 10px 10px',
+                      overflow: 'hidden',
+                      p: 2
+                    }}
+                  >
+                    Calendar for departure date
+                  </Box>
+                )}
+              </Box>
+            </ClickAwayListener>
+          </Box>
         </Box>
       </Box>
+
       <Box sx={{ position: 'relative', display: { xs: 'none', md: 'block' } }}>
         <FlightIcon color="primary" sx={{
           transform: 'rotate(90deg)',
           height: '6rem',
           width: '6rem',
-          '& svg': {
-            viewBox: '0 0 24 24'
-          }
+          '& svg': { viewBox: '0 0 24 24' }
         }} />
         <LocalAirportOutlinedIcon sx={{
           transform: 'rotate(270deg)',
@@ -165,89 +241,147 @@ const RoundWay = () => {
             stroke: (theme) => theme.palette.primary.main,
             fill: 'white'
           },
-          '& svg': {
-            viewBox: '0 0 24 24'
-          }
+          '& svg': { viewBox: '0 0 24 24' }
         }} />
       </Box>
+
       <Box sx={{ flex: 1, justifySelf: 'center', textAlign: 'center' }}>
-        <Typography fontSize={'13px'}>
-          To
-        </Typography>
+        <Typography fontSize={'13px'}>To</Typography>
         <Typography color="primary" sx={{ fontSize: '40px', fontWeight: 500 }}>
           {selected[2] ? `${selected[2].value}` : `${airportOptions[2].value}`}
         </Typography>
-        <Box>
-          <Button disableRipple sx={{
-            '&:hover': {
-              backgroundColor: 'inherit',
-              color: 'inherit',
-              boxShadow: 'none',
-            },
-          }}>
-            <FmdGoodIcon
-              sx={{
-                bgcolor: 'primary.main',
-                py: 1,
-                px: 2,
-                fontSize: '20px',
-                '& path': {
-                  stroke: 'white',
-                  fill: 'none'
-                },
-                borderRadius: '10px 0 0 10px'
-              }}
-            />
-            <Typography sx={{
-              bgcolor: 'background.default',
-              py: 1,
-              px: 2,
-              fontSize: '13px',
-              color: 'text.secondary',
-              borderRadius: '0 10px 10px 0',
-              minWidth: '200px',
-              textAlign: 'left'
-            }}
-            >{selected[2] ? `${selected[2].airport} (${selected[2].value})` : `${airportOptions[2].airport} (${airportOptions[2].value})`}</Typography>
-          </Button>
-          <Button disableRipple sx={{
-            '&:hover': {
-              backgroundColor: 'inherit',
-              color: 'inherit',
-              boxShadow: 'none',
-            },
-          }}>
-            <CalendarMonthIcon
-              sx={{
-                bgcolor: 'primary.main',
-                py: 1,
-                px: 2,
-                fontSize: '20px',
-                '& path': {
-                  stroke: 'white',
-                  fill: 'none'
-                },
-                borderRadius: '10px 0 0 10px'
-              }}
-            />
-            <Typography sx={{
-              bgcolor: 'background.default',
-              py: 1,
-              px: 2,
-              fontSize: '13px',
-              color: 'text.secondary',
-              borderRadius: '0 10px 10px 0',
-              minWidth: '200px',
-              textAlign: 'left'
-            }}
-            >
-              date
-            </Typography>
-          </Button>
 
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+          <Box sx={{ position: 'relative', width: '100%' }}>
+            <ClickAwayListener onClickAway={() => setVisibleTo(false)}>
+              <Box sx={{ position: 'relative', width: '100%' }}>
+                <Button
+                  onClick={handleActiveTo}
+                  disableRipple
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'stretch',
+                    width: '100%',
+                    borderRadius: '10px',
+                    overflow: 'hidden',
+                    p: 0,
+                    '&:hover': { backgroundColor: 'inherit', color: 'inherit', boxShadow: 'none' },
+                  }}
+                >
+                  <FmdGoodIcon
+                    sx={{
+                      bgcolor: 'primary.main',
+                      py: 1,
+                      px: 2,
+                      fontSize: '20px',
+                      '& path': { stroke: 'white', fill: 'none' },
+                    }}
+                  />
+                  <Typography
+                    sx={{
+                      bgcolor: 'background.default',
+                      py: 1,
+                      px: 2,
+                      fontSize: '13px',
+                      color: 'text.secondary',
+                      textAlign: 'left',
+                      flex: 1,
+                    }}
+                  >
+                    {selected[2]
+                      ? `${selected[2].airport} (${selected[2].value})`
+                      : `${airportOptions[2].airport} (${airportOptions[2].value})`}
+                  </Typography>
+                </Button>
+
+                {visibleTo && (
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      top: '100%',
+                      left: 0,
+                      width: '100%',
+                      boxSizing: 'border-box',
+                      bgcolor: 'primary.main',
+                      height: '300px',
+                      zIndex: 50,
+                      borderRadius: '0 0 10px 10px',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    Dropdown To
+                  </Box>
+                )}
+              </Box>
+            </ClickAwayListener>
+          </Box>
+
+          <Box sx={{ position: 'relative', width: '100%' }}>
+            <ClickAwayListener onClickAway={() => setVisibleDateTo(false)}>
+              <Box sx={{ position: 'relative', width: '100%' }}>
+                <Button
+                  onClick={handleDateTo}
+                  disableRipple
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'stretch',
+                    borderRadius: '10px',
+                    overflow: 'hidden',
+                    p: 0,
+                    '&:hover': { backgroundColor: 'inherit', color: 'inherit', boxShadow: 'none' },
+                  }}
+                >
+                  <CalendarMonthIcon
+                    sx={{
+                      bgcolor: 'primary.main',
+                      py: 1,
+                      px: 2,
+                      fontSize: '20px',
+                      '& path': { stroke: 'white', fill: 'none' },
+                    }}
+                  />
+                  <Typography
+                    sx={{
+                      bgcolor: 'background.default',
+                      py: 1,
+                      px: 2,
+                      fontSize: '13px',
+                      color: 'text.secondary',
+                      textAlign: 'left',
+                      flex: 1,
+                    }}
+                  >
+                    Return Date
+                  </Typography>
+                </Button>
+
+                {visibleDateTo && (
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      top: '100%',
+                      left: 0,
+                      width: '100%',
+                      boxSizing: 'border-box',
+                      bgcolor: 'background.paper',
+                      height: '300px',
+                      zIndex: 50,
+                      borderRadius: '0 0 10px 10px',
+                      overflow: 'hidden',
+                      p: 2
+                    }}
+                  >
+                    Calendar for return date
+                  </Box>
+                )}
+              </Box>
+            </ClickAwayListener>
+          </Box>
         </Box>
       </Box>
-    </Box >
-  )
-}
-export default RoundWay
+    </Box>
+  );
+};
+
+export default RoundWay;
