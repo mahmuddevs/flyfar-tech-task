@@ -56,6 +56,8 @@ const RoundWay = () => {
   const [visibleTo, setVisibleTo] = useState(false);
   const [visibleDateFrom, setVisibleDateFrom] = useState(false);
   const [visibleDateTo, setVisibleDateTo] = useState(false);
+  const [selectedDateFrom, setSelectedDateFrom] = useState(null);
+  const [selectedDateTo, setSelectedDateTo] = useState(null);
 
   const handleActiveFrom = () => {
     setVisibleFrom(prev => !prev);
@@ -87,13 +89,15 @@ const RoundWay = () => {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, justifyContent: 'space-between' }}>
+      {/* From Section */}
       <Box sx={{ flex: 1, justifySelf: 'center', textAlign: 'center' }}>
         <Typography fontSize={'13px'}>From</Typography>
         <Typography color="primary" sx={{ fontSize: '40px', fontWeight: 500 }}>
           {selected[0] ? `${selected[0].value}` : `${airportOptions[0].value}`}
         </Typography>
 
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, width: '80%', mx: 'auto' }}>
+          {/* From Airport Dropdown */}
           <Box sx={{ position: 'relative', width: '100%' }}>
             <ClickAwayListener onClickAway={() => setVisibleFrom(false)}>
               <Box sx={{ position: 'relative', width: '100%' }}>
@@ -128,6 +132,9 @@ const RoundWay = () => {
                       color: 'text.secondary',
                       textAlign: 'left',
                       flex: 1,
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis', // Text truncation with ellipsis
                     }}
                   >
                     {selected[0]
@@ -151,13 +158,14 @@ const RoundWay = () => {
                       overflow: 'hidden',
                     }}
                   >
-                    Dropdown From
+                    {/* Dropdown From - Airport options */}
                   </Box>
                 )}
               </Box>
             </ClickAwayListener>
           </Box>
 
+          {/* Departure Date */}
           <Box sx={{ position: 'relative', width: '100%' }}>
             <ClickAwayListener onClickAway={() => setVisibleDateFrom(false)}>
               <Box sx={{ position: 'relative', width: '100%' }}>
@@ -192,6 +200,9 @@ const RoundWay = () => {
                       color: 'text.secondary',
                       textAlign: 'left',
                       flex: 1,
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
                     }}
                   >
                     Departure Date
@@ -207,14 +218,13 @@ const RoundWay = () => {
                       width: '100%',
                       boxSizing: 'border-box',
                       bgcolor: 'background.paper',
-                      height: '300px',
                       zIndex: 50,
                       borderRadius: '0 0 10px 10px',
                       overflow: 'hidden',
                       p: 2
                     }}
                   >
-                    Calendar for departure date
+                    {/* Your date picker component here */}
                   </Box>
                 )}
               </Box>
@@ -223,6 +233,7 @@ const RoundWay = () => {
         </Box>
       </Box>
 
+      {/* Flight Icons Section */}
       <Box sx={{ position: 'relative', display: { xs: 'none', md: 'block' } }}>
         <FlightIcon color="primary" sx={{
           transform: 'rotate(90deg)',
@@ -245,13 +256,15 @@ const RoundWay = () => {
         }} />
       </Box>
 
+      {/* To Section */}
       <Box sx={{ flex: 1, justifySelf: 'center', textAlign: 'center' }}>
         <Typography fontSize={'13px'}>To</Typography>
         <Typography color="primary" sx={{ fontSize: '40px', fontWeight: 500 }}>
           {selected[2] ? `${selected[2].value}` : `${airportOptions[2].value}`}
         </Typography>
 
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, width: '80%', mx: 'auto' }}>
+          {/* To Airport Dropdown */}
           <Box sx={{ position: 'relative', width: '100%' }}>
             <ClickAwayListener onClickAway={() => setVisibleTo(false)}>
               <Box sx={{ position: 'relative', width: '100%' }}>
@@ -286,6 +299,9 @@ const RoundWay = () => {
                       color: 'text.secondary',
                       textAlign: 'left',
                       flex: 1,
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis', // Text truncation with ellipsis
                     }}
                   >
                     {selected[2]
@@ -309,13 +325,14 @@ const RoundWay = () => {
                       overflow: 'hidden',
                     }}
                   >
-                    Dropdown To
+                    {/* Dropdown To - Airport options */}
                   </Box>
                 )}
               </Box>
             </ClickAwayListener>
           </Box>
 
+          {/* Return Date */}
           <Box sx={{ position: 'relative', width: '100%' }}>
             <ClickAwayListener onClickAway={() => setVisibleDateTo(false)}>
               <Box sx={{ position: 'relative', width: '100%' }}>
@@ -350,6 +367,9 @@ const RoundWay = () => {
                       color: 'text.secondary',
                       textAlign: 'left',
                       flex: 1,
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
                     }}
                   >
                     Return Date
@@ -365,14 +385,13 @@ const RoundWay = () => {
                       width: '100%',
                       boxSizing: 'border-box',
                       bgcolor: 'background.paper',
-                      height: '300px',
                       zIndex: 50,
                       borderRadius: '0 0 10px 10px',
                       overflow: 'hidden',
                       p: 2
                     }}
                   >
-                    Calendar for return date
+                    {/* Your date picker component here */}
                   </Box>
                 )}
               </Box>
@@ -382,6 +401,6 @@ const RoundWay = () => {
       </Box>
     </Box>
   );
-};
+}
 
 export default RoundWay;
