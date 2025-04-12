@@ -268,7 +268,7 @@ const RoundWay = () => {
       </Box>
 
       {/* Flight Icons Section */}
-      <Box sx={{ position: "relative", display: { xs: "none", lg: "block" } }}>
+      <Box sx={{ position: "relative", display: { xs: "none", md: "block" } }}>
         <FlightIcon
           color="primary"
           sx={{

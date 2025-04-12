@@ -20,13 +20,16 @@ const FlightSearch = () => {
         <Container
             disableGutters
             sx={{
-                width: { xs: '100%', sm: '40%', lg: '30%' },
+                width: { sm: '40%', md: '100%', lg: '30%' },
                 height: 'auto',
                 bgcolor: 'white',
                 borderRadius: 2,
                 display: 'flex',
                 flexDirection: 'column',
-                p: { xs: 1, md: 2 },
+                p: 3,
+                borderTop: { xs: '1px dashed', sm: 'none', md: '1px dashed', lg: 'none' },
+                borderLeft: { xs: 'none', sm: '1px dashed', md: 'none', lg: '1px dashed' }
+
             }}
         >
             <Stack spacing={3} sx={{ flexGrow: 1 }}>
@@ -77,7 +80,7 @@ const FlightSearch = () => {
                     color: 'white',
                     fontSize: '14px',
                     padding: '10px',
-                    mt: 'auto'
+                    mt: { xs: 6, lg: 'auto' }
                 }}
             >
                 Search For Flight

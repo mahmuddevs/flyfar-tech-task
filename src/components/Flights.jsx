@@ -18,15 +18,15 @@ export default function Flights() {
     return (
         <Stack
             sx={{
-                flexDirection: { xs: 'column', sm: 'row' },
-                justifyContent: 'space-between',
+                flexDirection: { xs: 'column', sm: 'row', md: 'column', lg: 'row' },
+                justifyContent: 'center',
                 alignItems: 'stretch',
             }}
         >
             <Box
                 sx={{
                     bgcolor: 'white',
-                    width: { xs: '100%', sm: '60%', lg: '70%' },
+                    width: { sm: '60%', md: 'auto', lg: '70%' },
                     p: 3,
                     borderRadius: 2,
                     height: '100%',
