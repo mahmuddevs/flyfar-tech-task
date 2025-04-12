@@ -1,11 +1,13 @@
-import { Box, List, ListItem, TextField, Typography } from "@mui/material"
-import { useState } from "react"
+import { Box, List, ListItemButton, TextField, Typography } from "@mui/material";
+import { useState } from "react";
 
 const AirportSelector = ({ options, value, onChange, onClose }) => {
-    const [searchText, setSearchText] = useState("")
+    const [searchText, setSearchText] = useState("");
     const filteredOptions = searchText
-        ? options.filter((option) => option.display.toLowerCase().includes(searchText.toLowerCase()))
-        : options
+        ? options.filter((option) =>
+            option.display.toLowerCase().includes(searchText.toLowerCase())
+        )
+        : options;
 
     return (
         <Box sx={{ height: 300, display: "flex", flexDirection: "column" }}>
@@ -40,14 +42,13 @@ const AirportSelector = ({ options, value, onChange, onClose }) => {
             >
                 {filteredOptions.length > 0 ? (
                     filteredOptions.map((option) => (
-                        <ListItem
+                        <ListItemButton
                             key={option.value}
-                            button
+                            selected={value?.value === option.value}
                             onClick={() => {
-                                onChange(option)
-                                onClose()
+                                onChange(option);
+                                onClose();
                             }}
-                            selected={value && value.value === option.value}
                             sx={{
                                 py: 1,
                                 px: 2,
@@ -60,16 +61,16 @@ const AirportSelector = ({ options, value, onChange, onClose }) => {
                             }}
                         >
                             <Typography variant="body2">{option.display}</Typography>
-                        </ListItem>
+                        </ListItemButton>
                     ))
                 ) : (
-                    <ListItem>
+                    <ListItemButton>
                         <Typography variant="body2">No airports found</Typography>
-                    </ListItem>
+                    </ListItemButton>
                 )}
             </List>
         </Box>
-    )
-}
+    );
+};
 
-export default AirportSelector
+export default AirportSelector;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -7,13 +7,39 @@ import Box from '@mui/material/Box';
 import RoundWay from './RoundWay';
 import FlightSearch from './FlightSearch';
 import { Stack } from '@mui/material';
+import { SearchDataContext } from '../providers/SearchDataProvider';
 
 export default function Flights() {
+    const { addFlightData } = useContext(SearchDataContext)
     const [selectedTab, setSelectedTab] = useState('ROUND-WAY');
+    const [formData, setFormData] = useState({
+        adultCount: 1,
+        childCount: 0,
+        infantCount: 0,
+        classType: 'Economy',
+    });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    };
+
+    const handleSearch = () => {
+        addFlightData(formData)
+    };
 
     const handleTabChange = (event, newValue) => {
         setSelectedTab(newValue);
     };
+
+    const formProps = {
+        formData,
+        handleChange,
+        handleSearch
+    }
 
     return (
         <Stack
@@ -71,7 +97,7 @@ export default function Flights() {
                 </Box>
             </Box>
 
-            <FlightSearch />
+            <FlightSearch {...formProps} />
         </Stack >
     );
 }

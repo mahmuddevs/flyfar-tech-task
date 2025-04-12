@@ -1,20 +1,13 @@
-import React, { useState } from 'react';
-import { Box, MenuItem, Select, FormControl, Button, Stack, Container } from '@mui/material';
+import {
+    Container,
+    Stack,
+    FormControl,
+    Select,
+    MenuItem,
+    Button,
+} from '@mui/material';
 
-const FlightSearch = () => {
-    const [adultCount, setAdultCount] = useState(1);
-    const [childCount, setChildCount] = useState(0);
-    const [infantCount, setInfantCount] = useState(0);
-    const [classType, setClassType] = useState('Economy');
-
-    const handleAdultChange = (event) => setAdultCount(event.target.value);
-    const handleChildChange = (event) => setChildCount(event.target.value);
-    const handleInfantChange = (event) => setInfantCount(event.target.value);
-    const handleClassChange = (event) => setClassType(event.target.value);
-
-    const handleSearch = () => {
-        console.log('Searching flight with:', { adultCount, childCount, infantCount, classType });
-    };
+const FlightSearch = ({ formData, handleChange, handleSearch }) => {
 
     return (
         <Container
@@ -28,39 +21,60 @@ const FlightSearch = () => {
                 flexDirection: 'column',
                 p: 3,
                 borderTop: { xs: '1px dashed', sm: 'none', md: '1px dashed', lg: 'none' },
-                borderLeft: { xs: 'none', sm: '1px dashed', md: 'none', lg: '1px dashed' }
-
+                borderLeft: { xs: 'none', sm: '1px dashed', md: 'none', lg: '1px dashed' },
             }}
         >
             <Stack spacing={3} sx={{ flexGrow: 1 }}>
                 <Stack direction="row" spacing={2}>
                     <FormControl fullWidth variant="standard">
-                        <Select value={adultCount} onChange={handleAdultChange}>
+                        <Select
+                            name="adultCount"
+                            value={formData.adultCount}
+                            onChange={handleChange}
+                        >
                             {[...Array(9)].map((_, i) => (
-                                <MenuItem key={i + 1} value={i + 1}>{i + 1} ADULT</MenuItem>
+                                <MenuItem key={i + 1} value={i + 1}>
+                                    {i + 1} ADULT
+                                </MenuItem>
                             ))}
                         </Select>
                     </FormControl>
 
                     <FormControl fullWidth variant="standard">
-                        <Select value={childCount} onChange={handleChildChange}>
+                        <Select
+                            name="childCount"
+                            value={formData.childCount}
+                            onChange={handleChange}
+                        >
                             {[...Array(6)].map((_, i) => (
-                                <MenuItem key={i} value={i}>{i} CHILD</MenuItem>
+                                <MenuItem key={i} value={i}>
+                                    {i} CHILD
+                                </MenuItem>
                             ))}
                         </Select>
                     </FormControl>
 
                     <FormControl fullWidth variant="standard">
-                        <Select value={infantCount} onChange={handleInfantChange}>
+                        <Select
+                            name="infantCount"
+                            value={formData.infantCount}
+                            onChange={handleChange}
+                        >
                             {[...Array(5)].map((_, i) => (
-                                <MenuItem key={i} value={i}>{i} INFANT</MenuItem>
+                                <MenuItem key={i} value={i}>
+                                    {i} INFANT
+                                </MenuItem>
                             ))}
                         </Select>
                     </FormControl>
                 </Stack>
 
                 <FormControl fullWidth variant="standard">
-                    <Select value={classType} onChange={handleClassChange}>
+                    <Select
+                        name="classType"
+                        value={formData.classType}
+                        onChange={handleChange}
+                    >
                         <MenuItem value="Economy">Economy</MenuItem>
                         <MenuItem value="PremiumEconomy">Premium Economy</MenuItem>
                         <MenuItem value="Business">Business</MenuItem>
@@ -80,7 +94,7 @@ const FlightSearch = () => {
                     color: 'white',
                     fontSize: '14px',
                     padding: '10px',
-                    mt: { xs: 6, lg: 'auto' }
+                    mt: { xs: 6, lg: 'auto' },
                 }}
             >
                 Search For Flight

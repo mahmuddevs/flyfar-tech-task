@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Box, Button, Typography, Popover } from "@mui/material"
 import FlightIcon from "@mui/icons-material/Flight"
 import LocalAirportOutlinedIcon from "@mui/icons-material/LocalAirportOutlined"
@@ -6,6 +6,7 @@ import FmdGoodIcon from "@mui/icons-material/FmdGood"
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth"
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar"
 import AirportSelector from "./AirportSelector"
+import { SearchDataContext } from "../providers/SearchDataProvider"
 
 const airportOptions = [
   {
@@ -52,66 +53,52 @@ const airportOptions = [
   },
 ]
 
-// Custom airport selector component
-
 const RoundWay = () => {
-  // State for selected airports
-  const [fromAirport, setFromAirport] = useState(airportOptions[0])
-  const [toAirport, setToAirport] = useState(airportOptions[2])
+  const { addFlightData } = useContext(SearchDataContext)
+  const [flightData, setFlightData] = useState({
+    fromAirport: airportOptions[0],
+    toAirport: airportOptions[2],
+    departureDate: null,
+    returnDate: null
+  });
 
-  // State for dates
-  const [departureDate, setDepartureDate] = useState(null)
-  const [returnDate, setReturnDate] = useState(null)
+  const [anchorEl, setAnchorEl] = useState({
+    from: null,
+    to: null,
+    departureDate: null,
+    returnDate: null
+  });
 
-  // State for popover anchors
-  const [fromAnchorEl, setFromAnchorEl] = useState(null)
-  const [toAnchorEl, setToAnchorEl] = useState(null)
-  const [departureDateAnchorEl, setDepartureDateAnchorEl] = useState(null)
-  const [returnDateAnchorEl, setReturnDateAnchorEl] = useState(null)
-
-  // Handle airport from button click
-  const handleFromClick = (event) => {
-    setFromAnchorEl(event.currentTarget)
-    setToAnchorEl(null)
-    setDepartureDateAnchorEl(null)
-    setReturnDateAnchorEl(null)
-  }
-
-  // Handle airport to button click
-  const handleToClick = (event) => {
-    setToAnchorEl(event.currentTarget)
-    setFromAnchorEl(null)
-    setDepartureDateAnchorEl(null)
-    setReturnDateAnchorEl(null)
-  }
-
-  // Handle departure date button click
-  const handleDepartureDateClick = (event) => {
-    setDepartureDateAnchorEl(event.currentTarget)
-    setFromAnchorEl(null)
-    setToAnchorEl(null)
-    setReturnDateAnchorEl(null)
-  }
-
-  // Handle return date button click
-  const handleReturnDateClick = (event) => {
-    setReturnDateAnchorEl(event.currentTarget)
-    setFromAnchorEl(null)
-    setToAnchorEl(null)
-    setDepartureDateAnchorEl(null)
-  }
+  const handleButtonClick = (type) => (event) => {
+    setAnchorEl({
+      from: type === 'from' ? event.currentTarget : null,
+      to: type === 'to' ? event.currentTarget : null,
+      departureDate: type === 'departureDate' ? event.currentTarget : null,
+      returnDate: type === 'returnDate' ? event.currentTarget : null
+    });
+  };
 
   // Close handlers
-  const handleFromClose = () => setFromAnchorEl(null)
-  const handleToClose = () => setToAnchorEl(null)
-  const handleDepartureDateClose = () => setDepartureDateAnchorEl(null)
-  const handleReturnDateClose = () => setReturnDateAnchorEl(null)
+  const handleClose = (type) => () => {
+    setAnchorEl(prev => ({ ...prev, [type]: null }));
+  };
 
   // Check if popovers are open
-  const fromOpen = Boolean(fromAnchorEl)
-  const toOpen = Boolean(toAnchorEl)
-  const departureDateOpen = Boolean(departureDateAnchorEl)
-  const returnDateOpen = Boolean(returnDateAnchorEl)
+  const fromOpen = Boolean(anchorEl.from);
+  const toOpen = Boolean(anchorEl.to);
+  const departureDateOpen = Boolean(anchorEl.departureDate);
+  const returnDateOpen = Boolean(anchorEl.returnDate);
+
+  // Update state
+  const updateState = (key, value) => {
+    setFlightData(prev => ({ ...prev, [key]: value }));
+  };
+
+  useEffect(() => {
+    if (flightData) {
+      addFlightData(flightData);
+    }
+  }, [flightData]);
 
   return (
     <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, justifyContent: "space-between", gap: 2 }}>
@@ -119,14 +106,14 @@ const RoundWay = () => {
       <Box sx={{ flex: 1, justifySelf: "center", textAlign: "center" }}>
         <Typography fontSize={"13px"}>From</Typography>
         <Typography color="primary" sx={{ fontSize: "40px", fontWeight: 500 }}>
-          {fromAirport ? fromAirport.value : airportOptions[0].value}
+          {flightData.fromAirport ? flightData.fromAirport.value : airportOptions[0].value}
         </Typography>
 
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "80%", mx: "auto" }}>
           {/* From Airport Dropdown */}
           <Box sx={{ position: "relative", width: "100%" }}>
             <Button
-              onClick={handleFromClick}
+              onClick={handleButtonClick('from')}
               disableRipple
               sx={{
                 display: "flex",
@@ -161,16 +148,16 @@ const RoundWay = () => {
                   textOverflow: "ellipsis",
                 }}
               >
-                {fromAirport
-                  ? `${fromAirport.airport} (${fromAirport.value})`
+                {flightData.fromAirport
+                  ? `${flightData.fromAirport.airport} (${flightData.fromAirport.value})`
                   : `${airportOptions[0].airport} (${airportOptions[0].value})`}
               </Typography>
             </Button>
 
             <Popover
               open={fromOpen}
-              anchorEl={fromAnchorEl}
-              onClose={handleFromClose}
+              anchorEl={anchorEl.from}
+              onClose={handleClose('from')}
               anchorOrigin={{
                 vertical: "bottom",
                 horizontal: "left",
@@ -181,7 +168,7 @@ const RoundWay = () => {
               }}
               PaperProps={{
                 sx: {
-                  width: fromAnchorEl ? fromAnchorEl.offsetWidth : "auto",
+                  width: anchorEl.from ? anchorEl.from.offsetWidth : "auto",
                   height: 300,
                   mt: 0.5,
                   borderRadius: "0 0 10px 10px",
@@ -190,9 +177,9 @@ const RoundWay = () => {
             >
               <AirportSelector
                 options={airportOptions}
-                value={fromAirport}
-                onChange={setFromAirport}
-                onClose={handleFromClose}
+                value={flightData.fromAirport}
+                onChange={(value) => updateState('fromAirport', value)}
+                onClose={handleClose('from')}
               />
             </Popover>
           </Box>
@@ -200,7 +187,7 @@ const RoundWay = () => {
           {/* Departure Date */}
           <Box sx={{ position: "relative", width: "100%" }}>
             <Button
-              onClick={handleDepartureDateClick}
+              onClick={handleButtonClick('departureDate')}
               disableRipple
               sx={{
                 width: "100%",
@@ -235,14 +222,14 @@ const RoundWay = () => {
                   textOverflow: "ellipsis",
                 }}
               >
-                {departureDate ? departureDate.toLocaleDateString() : "Departure Date"}
+                {flightData.departureDate ? flightData.departureDate.toLocaleDateString() : "Departure Date"}
               </Typography>
             </Button>
 
             <Popover
               open={departureDateOpen}
-              anchorEl={departureDateAnchorEl}
-              onClose={handleDepartureDateClose}
+              anchorEl={anchorEl.departureDate}
+              onClose={handleClose('departureDate')}
               anchorOrigin={{
                 vertical: "bottom",
                 horizontal: "left",
@@ -256,10 +243,10 @@ const RoundWay = () => {
               }}
             >
               <DateCalendar
-                value={departureDate}
+                value={flightData.departureDate}
                 onChange={(newValue) => {
-                  setDepartureDate(newValue)
-                  handleDepartureDateClose()
+                  updateState('departureDate', newValue);
+                  handleClose('departureDate')();
                 }}
               />
             </Popover>
@@ -299,14 +286,14 @@ const RoundWay = () => {
       <Box sx={{ flex: 1, justifySelf: "center", textAlign: "center" }}>
         <Typography fontSize={"13px"}>To</Typography>
         <Typography color="primary" sx={{ fontSize: "40px", fontWeight: 500 }}>
-          {toAirport ? toAirport.value : airportOptions[2].value}
+          {flightData.toAirport ? flightData.toAirport.value : airportOptions[2].value}
         </Typography>
 
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1, width: "80%", mx: "auto" }}>
           {/* To Airport Dropdown */}
           <Box sx={{ position: "relative", width: "100%" }}>
             <Button
-              onClick={handleToClick}
+              onClick={handleButtonClick('to')}
               disableRipple
               sx={{
                 display: "flex",
@@ -341,16 +328,16 @@ const RoundWay = () => {
                   textOverflow: "ellipsis",
                 }}
               >
-                {toAirport
-                  ? `${toAirport.airport} (${toAirport.value})`
+                {flightData.toAirport
+                  ? `${flightData.toAirport.airport} (${flightData.toAirport.value})`
                   : `${airportOptions[2].airport} (${airportOptions[2].value})`}
               </Typography>
             </Button>
 
             <Popover
               open={toOpen}
-              anchorEl={toAnchorEl}
-              onClose={handleToClose}
+              anchorEl={anchorEl.to}
+              onClose={handleClose('to')}
               anchorOrigin={{
                 vertical: "bottom",
                 horizontal: "left",
@@ -361,7 +348,7 @@ const RoundWay = () => {
               }}
               PaperProps={{
                 sx: {
-                  width: toAnchorEl ? toAnchorEl.offsetWidth : "auto",
+                  width: anchorEl.to ? anchorEl.to.offsetWidth : "auto",
                   height: 300,
                   mt: 0.5,
                   borderRadius: "0 0 10px 10px",
@@ -370,9 +357,9 @@ const RoundWay = () => {
             >
               <AirportSelector
                 options={airportOptions}
-                value={toAirport}
-                onChange={setToAirport}
-                onClose={handleToClose}
+                value={flightData.toAirport}
+                onChange={(value) => updateState('toAirport', value)}
+                onClose={handleClose('to')}
               />
             </Popover>
           </Box>
@@ -380,7 +367,7 @@ const RoundWay = () => {
           {/* Return Date */}
           <Box sx={{ position: "relative", width: "100%" }}>
             <Button
-              onClick={handleReturnDateClick}
+              onClick={handleButtonClick('returnDate')}
               disableRipple
               sx={{
                 width: "100%",
@@ -415,14 +402,14 @@ const RoundWay = () => {
                   textOverflow: "ellipsis",
                 }}
               >
-                {returnDate ? returnDate.toLocaleDateString() : "Return Date"}
+                {flightData.returnDate ? flightData.returnDate.toLocaleDateString() : "Return Date"}
               </Typography>
             </Button>
 
             <Popover
               open={returnDateOpen}
-              anchorEl={returnDateAnchorEl}
-              onClose={handleReturnDateClose}
+              anchorEl={anchorEl.returnDate}
+              onClose={handleClose('returnDate')}
               anchorOrigin={{
                 vertical: "bottom",
                 horizontal: "left",
@@ -436,10 +423,10 @@ const RoundWay = () => {
               }}
             >
               <DateCalendar
-                value={returnDate}
+                value={flightData.returnDate}
                 onChange={(newValue) => {
-                  setReturnDate(newValue)
-                  handleReturnDateClose()
+                  updateState('returnDate', newValue);
+                  handleClose('returnDate')();
                 }}
               />
             </Popover>
