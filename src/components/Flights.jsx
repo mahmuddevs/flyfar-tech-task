@@ -26,7 +26,7 @@ export default function Flights() {
             <Box
                 sx={{
                     bgcolor: 'white',
-                    width: { xs: '100%', sm: '60%', md: '70%' },
+                    width: { xs: '100%', sm: '60%', lg: '70%' },
                     p: 3,
                     borderRadius: 2,
                     height: '100%',
@@ -72,6 +72,6 @@ export default function Flights() {
             </Box>
 
             <FlightSearch />
-        </Stack>
+        </Stack >
     );
 }

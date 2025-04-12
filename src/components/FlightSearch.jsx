@@ -20,14 +20,13 @@ const FlightSearch = () => {
         <Container
             disableGutters
             sx={{
-                width: { xs: '100%', sm: '40%', md: '30%' },
+                width: { xs: '100%', sm: '40%', lg: '30%' },
                 height: 'auto',
                 bgcolor: 'white',
                 borderRadius: 2,
                 display: 'flex',
                 flexDirection: 'column',
-                p: 3,
-                flexGrow: 1
+                p: { xs: 1, md: 2 },
             }}
         >
             <Stack spacing={3} sx={{ flexGrow: 1 }}>
