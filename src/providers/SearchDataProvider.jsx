@@ -3,20 +3,31 @@ import { createContext, useState } from "react"
 export const SearchDataContext = createContext()
 
 const SearchDataProvider = ({ children }) => {
-    const [roundWayData, setRoundWayData] = useState({})
+    const [ticketData, setTicketData] = useState({
+        flightInfo: {},
+        seatInfo: {},
+    })
 
-    const addFlightData = (data) => {
-        setRoundWayData(prevData => ({
-            ...prevData,
-            ...data
-        }));
+    const addSeatData = (data) => {
+        setTicketData((prev) => ({
+            ...prev,
+            seatInfo: data,
+        }))
     }
 
-    console.log(roundWayData)
+    const addFlightData = (data) => {
+        setTicketData((prev) => ({
+            ...prev,
+            flightInfo: data,
+        }))
+    }
+
+    console.log(ticketData)
 
     const value = {
-        roundWayData,
-        setRoundWayData,
+        ticketData,
+        setTicketData,
+        addSeatData,
         addFlightData
     }
     return (

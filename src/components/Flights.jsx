@@ -10,7 +10,7 @@ import { Stack } from '@mui/material';
 import { SearchDataContext } from '../providers/SearchDataProvider';
 
 export default function Flights() {
-    const { addFlightData } = useContext(SearchDataContext)
+    const { addSeatData } = useContext(SearchDataContext)
     const [selectedTab, setSelectedTab] = useState('ROUND-WAY');
     const [formData, setFormData] = useState({
         adultCount: 1,
@@ -28,7 +28,7 @@ export default function Flights() {
     };
 
     const handleSearch = () => {
-        addFlightData(formData)
+        addSeatData(formData)
     };
 
     const handleTabChange = (event, newValue) => {
