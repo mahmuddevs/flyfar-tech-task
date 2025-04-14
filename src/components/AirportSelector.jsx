@@ -13,7 +13,6 @@ const AirportSelector = ({ options, value, onChange, onClose }) => {
         <Box sx={{ height: 300, display: "flex", flexDirection: "column" }}>
             {/* Search input */}
             <TextField
-                fullWidth
                 placeholder="Search airports"
                 variant="outlined"
                 value={searchText}
@@ -22,6 +21,9 @@ const AirportSelector = ({ options, value, onChange, onClose }) => {
                     p: 1,
                     "& .MuiOutlinedInput-root": {
                         borderRadius: 1,
+                    },
+                    "& .MuiInputBase-input": {
+                        p: 1
                     },
                 }}
             />

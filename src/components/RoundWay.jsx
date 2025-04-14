@@ -137,8 +137,7 @@ const RoundWay = () => {
               <Typography
                 sx={{
                   bgcolor: "background.default",
-                  py: 1,
-                  px: 2,
+                  p: 1,
                   fontSize: "13px",
                   color: "text.secondary",
                   textAlign: "left",
@@ -211,8 +210,7 @@ const RoundWay = () => {
               <Typography
                 sx={{
                   bgcolor: "background.default",
-                  py: 1,
-                  px: 2,
+                  p: 1,
                   fontSize: "13px",
                   color: "text.secondary",
                   textAlign: "left",
@@ -317,8 +315,7 @@ const RoundWay = () => {
               <Typography
                 sx={{
                   bgcolor: "background.default",
-                  py: 1,
-                  px: 2,
+                  p: 1,
                   fontSize: "13px",
                   color: "text.secondary",
                   textAlign: "left",
@@ -391,8 +388,7 @@ const RoundWay = () => {
               <Typography
                 sx={{
                   bgcolor: "background.default",
-                  py: 1,
-                  px: 2,
+                  p: 1,
                   fontSize: "13px",
                   color: "text.secondary",
                   textAlign: "left",

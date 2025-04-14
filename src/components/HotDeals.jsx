@@ -32,6 +32,7 @@ const HotDeals = () => {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
     return (
         <Container sx={{ p: { lg: '0!important' } }}>
             <Stack sx={{
@@ -51,7 +52,7 @@ const HotDeals = () => {
                     sx={{
                         backgroundColor: 'primary.main',
                         borderRadius: '999px',
-                        minHeight: '36px',
+                        minHeight: { xs: '28px', md: '36px' },
                         minWidth: { xs: '100%', sm: '550px' },
                         px: 1,
                     }}
