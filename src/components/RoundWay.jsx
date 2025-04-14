@@ -7,59 +7,16 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth"
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar"
 import AirportSelector from "./AirportSelector"
 import { SearchDataContext } from "../providers/SearchDataProvider"
+import { airportOptions } from "../assets/data"
 
-const airportOptions = [
-  {
-    value: "DAC",
-    label: "Dhaka, BANGLADESH",
-    airport: "Hazrat Shahjalal Intl Airport",
-    display: "Dhaka, BANGLADESH - Hazrat Shahjalal Intl Airport (DAC)",
-  },
-  {
-    value: "DXB",
-    label: "Dubai, UNITED ARAB EMIRATES",
-    airport: "Dubai Intl Airport",
-    display: "Dubai, UNITED ARAB EMIRATES - Dubai Intl Airport (DXB)",
-  },
-  {
-    value: "CXB",
-    label: "Cox's Bazar, BANGLADESH",
-    airport: "Cox's Bazar Airport",
-    display: "Cox's Bazar, BANGLADESH - Cox's Bazar Airport (CXB)",
-  },
-  {
-    value: "JSR",
-    label: "Jashore, BANGLADESH",
-    airport: "Jashore Airport",
-    display: "Jashore, BANGLADESH - Jashore Airport (JSR)",
-  },
-  {
-    value: "BZL",
-    label: "Barishal, BANGLADESH",
-    airport: "Barishal Airport",
-    display: "Barishal, BANGLADESH - Barishal Airport (BZL)",
-  },
-  {
-    value: "RJH",
-    label: "Rajshahi, BANGLADESH",
-    airport: "Shah Makhdum Airport",
-    display: "Rajshahi, BANGLADESH - Shah Makhdum Airport (RJH)",
-  },
-  {
-    value: "SPD",
-    label: "Saidpur, BANGLADESH",
-    airport: "Saidpur Airport",
-    display: "Saidpur, BANGLADESH - Saidpur Airport (SPD)",
-  },
-]
 
 const RoundWay = () => {
   const { addFlightData } = useContext(SearchDataContext)
   const [flightData, setFlightData] = useState({
     fromAirport: airportOptions[0],
     toAirport: airportOptions[2],
-    departureDate: null,
-    returnDate: null
+    departureDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000),
+    returnDate: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000)
   });
 
   const [anchorEl, setAnchorEl] = useState({
@@ -105,7 +62,7 @@ const RoundWay = () => {
       {/* From Section */}
       <Box sx={{ flex: 1, justifySelf: "center", textAlign: "center" }}>
         <Typography fontSize={"13px"}>From</Typography>
-        <Typography color="primary" sx={{ fontSize: "40px", fontWeight: 500 }}>
+        <Typography color="primary" sx={{ fontSize: { xs: "22px", md: "40px" }, fontWeight: 500 }}>
           {flightData.fromAirport ? flightData.fromAirport.value : airportOptions[0].value}
         </Typography>
 
@@ -138,7 +95,7 @@ const RoundWay = () => {
                 sx={{
                   bgcolor: "background.default",
                   p: 1,
-                  fontSize: "13px",
+                  fontSize: "12px",
                   color: "text.secondary",
                   textAlign: "left",
                   flex: 1,
@@ -211,7 +168,7 @@ const RoundWay = () => {
                 sx={{
                   bgcolor: "background.default",
                   p: 1,
-                  fontSize: "13px",
+                  fontSize: "12px",
                   color: "text.secondary",
                   textAlign: "left",
                   flex: 1,
@@ -220,7 +177,9 @@ const RoundWay = () => {
                   textOverflow: "ellipsis",
                 }}
               >
-                {flightData.departureDate ? flightData.departureDate.toLocaleDateString() : "Departure Date"}
+                {flightData.departureDate
+                  ? flightData.departureDate.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+                  : "Departure Date"}
               </Typography>
             </Button>
 
@@ -283,7 +242,7 @@ const RoundWay = () => {
       {/* To Section */}
       <Box sx={{ flex: 1, justifySelf: "center", textAlign: "center" }}>
         <Typography fontSize={"13px"}>To</Typography>
-        <Typography color="primary" sx={{ fontSize: "40px", fontWeight: 500 }}>
+        <Typography color="primary" sx={{ fontSize: { xs: "22px", md: "40px" }, fontWeight: 500 }}>
           {flightData.toAirport ? flightData.toAirport.value : airportOptions[2].value}
         </Typography>
 
@@ -316,7 +275,7 @@ const RoundWay = () => {
                 sx={{
                   bgcolor: "background.default",
                   p: 1,
-                  fontSize: "13px",
+                  fontSize: "12px",
                   color: "text.secondary",
                   textAlign: "left",
                   flex: 1,
@@ -389,7 +348,7 @@ const RoundWay = () => {
                 sx={{
                   bgcolor: "background.default",
                   p: 1,
-                  fontSize: "13px",
+                  fontSize: "12px",
                   color: "text.secondary",
                   textAlign: "left",
                   flex: 1,
@@ -398,7 +357,13 @@ const RoundWay = () => {
                   textOverflow: "ellipsis",
                 }}
               >
-                {flightData.returnDate ? flightData.returnDate.toLocaleDateString() : "Return Date"}
+                {flightData.returnDate
+                  ? flightData.returnDate.toLocaleDateString('en-GB', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric'
+                  })
+                  : 'Return Date'}
               </Typography>
             </Button>
 

@@ -8,6 +8,8 @@ import RoundWay from './RoundWay';
 import FlightSearch from './FlightSearch';
 import { Stack } from '@mui/material';
 import { SearchDataContext } from '../providers/SearchDataProvider';
+import OneWay from './OneWay';
+import { useNavigate } from 'react-router';
 
 export default function Flights() {
     const { addSeatData } = useContext(SearchDataContext)
@@ -19,6 +21,8 @@ export default function Flights() {
         classType: 'Economy',
     });
 
+    const navigate = useNavigate()
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
@@ -29,6 +33,8 @@ export default function Flights() {
 
     const handleSearch = () => {
         addSeatData(formData)
+        navigate('/tickets')
+
     };
 
     const handleTabChange = (event, newValue) => {
@@ -70,19 +76,37 @@ export default function Flights() {
                         sx={{ fontWeight: 300, color: 'primary.main' }}
                     >
                         <FormControlLabel
-                            sx={{ '& .MuiFormControlLabel-label': { fontSize: '13px' } }}
+                            sx={{
+                                '& .MuiFormControlLabel-label': { fontSize: '11px' },
+                                '& .MuiRadio-root': {
+                                    padding: '4px',
+                                    transform: 'scale(0.8)',
+                                },
+                            }}
                             value="ROUND-WAY"
                             control={<Radio />}
                             label="ROUND-WAY"
                         />
                         <FormControlLabel
-                            sx={{ '& .MuiFormControlLabel-label': { fontSize: '13px' } }}
+                            sx={{
+                                '& .MuiFormControlLabel-label': { fontSize: '11px' },
+                                '& .MuiRadio-root': {
+                                    padding: '4px',
+                                    transform: 'scale(0.8)',
+                                },
+                            }}
                             value="ONE-WAY"
                             control={<Radio />}
                             label="ONE-WAY"
                         />
                         <FormControlLabel
-                            sx={{ '& .MuiFormControlLabel-label': { fontSize: '13px' } }}
+                            sx={{
+                                '& .MuiFormControlLabel-label': { fontSize: '11px' },
+                                '& .MuiRadio-root': {
+                                    padding: '4px',
+                                    transform: 'scale(0.8)',
+                                },
+                            }}
                             value="MULTI-CITY"
                             control={<Radio />}
                             label="MULTI-CITY"
@@ -92,7 +116,7 @@ export default function Flights() {
 
                 <Box sx={{ marginTop: 2 }}>
                     {selectedTab === 'ROUND-WAY' && <RoundWay />}
-                    {selectedTab === 'ONE-WAY' && <div>Content for ONE-WAY Tab</div>}
+                    {selectedTab === 'ONE-WAY' && <OneWay />}
                     {selectedTab === 'MULTI-CITY' && <div>Content for MULTI-CITY Tab</div>}
                 </Box>
             </Box>

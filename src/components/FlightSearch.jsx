@@ -25,12 +25,22 @@ const FlightSearch = ({ formData, handleChange, handleSearch }) => {
             }}
         >
             <Stack spacing={3} sx={{ flexGrow: 1 }}>
-                <Stack direction="row" spacing={2}>
+                <Stack direction="row" spacing={1}>
                     <FormControl fullWidth variant="standard">
                         <Select
                             name="adultCount"
                             value={formData.adultCount}
                             onChange={handleChange}
+                            sx={{
+                                fontSize: '10px',
+                                bgcolor: '#d7e7f4',
+                                px: 1,
+                                py: 0.5,
+                                borderRadius: 2,
+                                '&::before, &::after': {
+                                    display: 'none'
+                                }
+                            }}
                         >
                             {[...Array(9)].map((_, i) => (
                                 <MenuItem key={i + 1} value={i + 1}>
@@ -45,6 +55,16 @@ const FlightSearch = ({ formData, handleChange, handleSearch }) => {
                             name="childCount"
                             value={formData.childCount}
                             onChange={handleChange}
+                            sx={{
+                                fontSize: '10px',
+                                bgcolor: '#d7e7f4',
+                                px: 1,
+                                py: 0.5,
+                                borderRadius: 2,
+                                '&::before, &::after': {
+                                    display: 'none'
+                                }
+                            }}
                         >
                             {[...Array(6)].map((_, i) => (
                                 <MenuItem key={i} value={i}>
@@ -59,6 +79,16 @@ const FlightSearch = ({ formData, handleChange, handleSearch }) => {
                             name="infantCount"
                             value={formData.infantCount}
                             onChange={handleChange}
+                            sx={{
+                                fontSize: '10px',
+                                bgcolor: '#d7e7f4',
+                                px: 1,
+                                py: 0.5,
+                                borderRadius: 2,
+                                '&::before, &::after': {
+                                    display: 'none'
+                                }
+                            }}
                         >
                             {[...Array(5)].map((_, i) => (
                                 <MenuItem key={i} value={i}>
@@ -74,6 +104,16 @@ const FlightSearch = ({ formData, handleChange, handleSearch }) => {
                         name="classType"
                         value={formData.classType}
                         onChange={handleChange}
+                        sx={{
+                            fontSize: '11px',
+                            bgcolor: '#d7e7f4',
+                            px: 1,
+                            py: 0.5,
+                            borderRadius: 2,
+                            '&::before, &::after': {
+                                display: 'none'
+                            }
+                        }}
                     >
                         <MenuItem value="Economy">Economy</MenuItem>
                         <MenuItem value="PremiumEconomy">Premium Economy</MenuItem>
@@ -100,7 +140,8 @@ const FlightSearch = ({ formData, handleChange, handleSearch }) => {
                 Search For Flight
             </Button>
         </Container>
-    );
-};
+
+    )
+}
 
 export default FlightSearch;
